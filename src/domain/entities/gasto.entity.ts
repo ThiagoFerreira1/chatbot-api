@@ -1,21 +1,21 @@
-export class Gasto {
-  public readonly id?: string;
-  public readonly usuarioId: string;
-  public descricao?: string;
-  public valor: number;
-  public data: Date;
+export type Gasto = {
+  id: number;
+  usuarioID: number;
+  descricao?: string | null;
+  valor: number;
+  data: Date;
+};
 
-  constructor(
-    usuarioId: string,
-    descricao: string | null,
-    valor: number,
-    data?: Date,
-    id?: string,
-  ) {
-    this.id = id,
-    this.usuarioId = usuarioId;
-    this.descricao = descricao ?? undefined;
-    this.valor = valor;
-    this.data = data ?? new Date();
+export type GastoProps = Omit<Gasto, 'id'>;
+
+export class gastoEntity {
+  public readonly _id: number;
+
+  constructor(public readonly props: GastoProps, id: number) {
+    this._id = id;
+  }
+
+  get id() {
+    return this._id;
   }
 }

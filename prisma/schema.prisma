@@ -13,20 +13,23 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id      String   @id @default(uuid())
-  nome    String
-  telefone   String   @unique
-  email      String?  
-  dataCriacao  DateTime @default(now())
-  gastos  Gasto[]
+model Usuarios {
+  id             Int      @id @default(autoincrement())
+  nome           String   @db.VarChar(100)
+  telefone       String?  @unique @db.VarChar(15)
+  email          String?  @db.VarChar(100)
+  dataCriacao    DateTime
+  dataAtualizacao DateTime @updatedAt
+  gastos         Gastos[]
 }
 
-model Gasto {
-  id        String   @id @default(uuid())
-  valor     Float
-  descricao String?
-  data      DateTime @default(now())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
+model Gastos {
+  id             Int      @id @default(autoincrement())
+  valor          Float
+  descricao      String?  @db.VarChar(255)
+  data           DateTime @default(now())
+  usuarioID         Int
+  dataAtualizacao DateTime @updatedAt
+
+  user           Usuarios @relation(fields: [usuarioID], references: [id])
 }

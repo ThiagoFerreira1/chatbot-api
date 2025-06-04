@@ -1,14 +1,12 @@
-import { Gasto as PrismaGasto } from '@prisma/client';
-import { Gasto } from 'src/domain/entities/gasto.entity';
+import { Gastos as PrismaGasto } from '@prisma/client';
+import { Gasto, gastoEntity } from 'src/domain/entities/gasto.entity';
 
 export class GastoMapper {
-  static toDomain(prismaGasto: PrismaGasto): Gasto {
-    return new Gasto(
-      prismaGasto.userId,
-      prismaGasto.descricao,
-      prismaGasto.valor,
-      prismaGasto.data,
-      prismaGasto.id,
-    );
+  static toDomain(prismaGasto: PrismaGasto): gastoEntity {
+    const data = {
+      ...prismaGasto
+    };
+
+    return new gastoEntity(data, prismaGasto.id);
   }
 }
