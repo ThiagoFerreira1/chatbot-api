@@ -1,17 +1,20 @@
-import { IUserRepository } from 'src/domain/contracts/user.repository';
 import { PrismaService } from '../prisma.service';
-import { Usuario, UsuarioEntity } from 'src/domain/entities/usuario.entity';
+import { UsuarioEntity } from 'src/domain/entities/usuario.entity';
 import { UserMapper } from '../mappers/usuario.mapper';
+import { Injectable } from '@nestjs/common';
 
-export class PrismaUserRepository implements IUserRepository {
-  constructor(private prisma: PrismaService) {}
+@Injectable()
+export class PrismaUserRepository {
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(entity: UsuarioEntity): Promise<UsuarioEntity | null> {
+    console.log('Creating user:', entity);
     const created = await this.prisma.usuarios.create({
       data: {
         nome: entity.nome,
         telefone: entity.telefone,
         email: entity.email,
+        senha: entity.senha,
         dataCriacao: new Date(),
       },
     });
@@ -39,7 +42,10 @@ export class PrismaUserRepository implements IUserRepository {
     });
   }
 
-  async update(id: number, entity: Partial<UsuarioEntity>): Promise<UsuarioEntity | null> {
+  async update(
+    id: number,
+    entity: Partial<UsuarioEntity>,
+  ): Promise<UsuarioEntity | null> {
     const updated = await this.prisma.usuarios.update({
       data: {
         nome: entity?.nome,
@@ -53,5 +59,13 @@ export class PrismaUserRepository implements IUserRepository {
     });
 
     return this.findById(updated.id);
+  }
+
+  async findByEmail(email: string): Promise<UsuarioEntity | null> {
+    const result = await this.prisma.usuarios.findFirst({
+      where: { email: email },
+    });
+
+    return result ? UserMapper.toDomain(result) : null;
   }
 }

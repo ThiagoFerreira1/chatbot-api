@@ -1,9 +1,8 @@
-import { Gasto, gastoEntity } from 'src/domain/entities/gasto.entity';
-import { IGastoRepository } from 'src/domain/contracts/gasto.repository';
+import { gastoEntity } from 'src/domain/entities/gasto.entity';
 import { PrismaService } from '../prisma.service';
 import { GastoMapper } from '../mappers/gasto.mapper';
 
-export class PrismaGastoRepository implements IGastoRepository {
+export class PrismaGastoRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(entity: gastoEntity): Promise<gastoEntity | null> {
@@ -54,7 +53,7 @@ export class PrismaGastoRepository implements IGastoRepository {
         usuarioID: entity.props.usuarioID,
         descricao: entity.props.descricao,
         valor: entity.props.valor,
-        data: entity.props.data
+        data: entity.props.data,
       },
     });
 

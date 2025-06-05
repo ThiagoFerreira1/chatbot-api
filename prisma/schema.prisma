@@ -17,7 +17,8 @@ model Usuarios {
   id             Int      @id @default(autoincrement())
   nome           String   @db.VarChar(100)
   telefone       String?  @unique @db.VarChar(15)
-  email          String?  @db.VarChar(100)
+  email          String  @db.VarChar(100)
+  senha       String   @db.VarChar(255)
   dataCriacao    DateTime
   dataAtualizacao DateTime @updatedAt
   gastos         Gastos[]

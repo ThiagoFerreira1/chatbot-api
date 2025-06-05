@@ -7,6 +7,7 @@ export class UserMapper {
       nome: prismaUser.nome,
       telefone: prismaUser.telefone,
       email: prismaUser.email,
+      senha: prismaUser.senha,
       dataCriacao: prismaUser.dataCriacao,
       dataAtualizacao: prismaUser.dataAtualizacao,
     };
